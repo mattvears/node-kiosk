@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-web-app1",
+  "version": "0.0.0",
+  "description": "NodejsWebApp1",
+  "main": "server.js",
+  "author": {
+    "name": "mattv"
+  },
+  "dependencies": {
+    "animated-gif-detector": "^1.2.0",
+    "async": "^2.3.0",
+    "cookies": "^0.7.0",
+    "express": "^4.15.2",
+    "image-size": "^0.5.1",
+    "winston": "^2.3.1"
+  }
+}
