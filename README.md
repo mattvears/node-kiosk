@@ -1,6 +1,6 @@
 ﻿# About
 
-Display images from a folder in a webpage
+Display a slideshow of images from a folder in a minimalistic webpage
 
 It was created as part of a project to make an animated gif picture frame with a raspberry pi and an adafruit touchscreen.
 
