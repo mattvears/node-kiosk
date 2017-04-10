@@ -78,14 +78,14 @@
                                 res.write(content);
                                 res.write(htmlParts[1]);
                                 res.end();
-                            });
 
-                            // post processing
-                            sessions.get(sessionId).imageIndex += 1;
-                            if (sessions.get(sessionId).imageIndex >= files.files.length) {
-                                sessions.get(sessionId).imageIndex = 0;
-                                files.updateFileList(imageFolderPath);
-                            }
+                                // post processing
+                                sessions.get(sessionId).imageIndex += 1;
+                                if (sessions.get(sessionId).imageIndex >= files.files.length) {
+                                    sessions.get(sessionId).imageIndex = 0;
+                                    files.updateFileList(imageFolderPath);
+                                }
+                            });
                         });
 
                     app.listen(1337,
