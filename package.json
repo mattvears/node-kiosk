@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-web-app1",
-  "version": "0.0.0",
-  "description": "NodejsWebApp1",
+  "name": "node-kiosk",
+  "version": "0.0.1",
+  "description": "web server for a raspberry pi kiosk",
   "main": "server.js",
   "author": {
     "name": "mattv"
