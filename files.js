@@ -79,14 +79,15 @@
                 },
                 render: function(req, res, browserDimensions, callback) {
                     var dims = browserDimensions;
+                    var that = this;
                     fileSystem.readFile(this.fullPath,
-                        (e, d) => {
+                        function (e, d) {
                             if (e) {
                                 winston.error(e);
                                 process.exit(-1);
                             }
 
-                            var scaling = getImageScalingInfo(this, browserDimensions);
+                            var scaling = getImageScalingInfo(that, browserDimensions);
 
                             res.write(
                                 "<img src='data:image/" +

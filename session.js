@@ -19,6 +19,12 @@
                 var cookies = new Cookies(req, res);
                 var width = parseInt(cookies.get("innerWidth"), 10);
                 var height = parseInt(cookies.get("innerHeight"), 10);
+
+                if (width === NaN || width === undefined || width === null || 
+                    height === NaN || height === undefined || height === null) {
+                    return null;
+                }
+
                 return {
                     width: width,
                     height: height

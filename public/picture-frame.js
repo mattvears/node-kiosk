@@ -8,6 +8,4 @@
 
     setCookie("innerWidth", window.innerWidth);
     setCookie("innerHeight", window.innerHeight);
-
-
 }());
