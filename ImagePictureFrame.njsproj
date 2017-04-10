@@ -35,6 +35,9 @@
     <Compile Include="files.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="fileType.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\picture-frame.js">
       <SubType>Code</SubType>
     </Compile>
