@@ -69,23 +69,25 @@
                             var browserDimensions = sessions.screenDimensions(req, res);
                             var file = files.files[session.imageIndex];
 
-                            file.handler.load(file, browserDimensions, function(content) {
-                                res.writeHead(200, { 'Content-Type': "text/html" });
-                                var html = pictureFrameData.toString();
-                                html = html.split("IMAGE_ID").join(session.imageIndex);
-                                var htmlParts = html.split("<!-- split -->");
-                                res.write(htmlParts[0]);
-                                res.write(content);
-                                res.write(htmlParts[1]);
-                                res.end();
+                            file.handler.load(file,
+                                browserDimensions,
+                                function(content) {
+                                    res.writeHead(200, { 'Content-Type': "text/html" });
+                                    var html = pictureFrameData.toString();
+                                    html = html.split("IMAGE_ID").join(session.imageIndex);
+                                    var htmlParts = html.split("<!-- split -->");
+                                    res.write(htmlParts[0]);
+                                    res.write(content);
+                                    res.write(htmlParts[1]);
+                                    res.end();
 
-                                // post processing
-                                sessions.get(sessionId).imageIndex += 1;
-                                if (sessions.get(sessionId).imageIndex >= files.files.length) {
-                                    sessions.get(sessionId).imageIndex = 0;
-                                    files.updateFileList(imageFolderPath);
-                                }
-                            });
+                                    // post processing
+                                    sessions.get(sessionId).imageIndex += 1;
+                                    if (sessions.get(sessionId).imageIndex >= files.files.length) {
+                                        sessions.get(sessionId).imageIndex = 0;
+                                        files.updateFileList(imageFolderPath);
+                                    }
+                                });
                         });
 
                     app.listen(1337,

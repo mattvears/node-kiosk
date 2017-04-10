@@ -1,9 +1,10 @@
-﻿module.exports = {
+﻿"use strict";
+module.exports = {
     sessions: function() {
         var Cookies = require("cookies");
         var offset = 0;
         var states = {};
-        
+
         return {
             create: function() {
                 offset += 1;
@@ -20,8 +21,12 @@
                 var width = parseInt(cookies.get("innerWidth"), 10);
                 var height = parseInt(cookies.get("innerHeight"), 10);
 
-                if (width === NaN || width === undefined || width === null || 
-                    height === NaN || height === undefined || height === null) {
+                if (width === NaN ||
+                    width === undefined ||
+                    width === null ||
+                    height === NaN ||
+                    height === undefined ||
+                    height === null) {
                     return null;
                 }
 

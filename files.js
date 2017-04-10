@@ -1,4 +1,5 @@
-﻿module.exports = {
+﻿"use strict";
+module.exports = {
     files: function(imageFolderPath, winston) {
         var async = require("async");
         var path = require("path");
@@ -7,7 +8,6 @@
         var fileTypes = require("./fileType");
         var animated = require("animated-gif-detector");
 
-        
 
         function createFileEntry(name, dir) {
             var joinedPath = path.join(dir, name);
@@ -18,7 +18,7 @@
                 fullPath: joinedPath,
                 dimensions: dims,
                 handler: fileTypes.getHandler(dims.type),
-                displayLength: function () {
+                displayLength: function() {
                     if (dims.type === "gif") {
                         if (animated(fileSystem.readFileSync(this.fullPath))) {
                             return 5000;

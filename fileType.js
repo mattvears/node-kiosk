@@ -1,6 +1,7 @@
-﻿var Handlers = (function () {
+﻿"use strict";
+var Handlers = (function () {
     var fileSystem = require("fs");
-    var imageHandler = function () {
+    var imageHandler = function() {
         function scaleRatio(img, screenDimensions) {
             var imgMax = 0;
             var dimMax = 0;
@@ -49,9 +50,9 @@
         }
 
         return {
-            load: function (file, browserDimensions, callback) {
+            load: function(file, browserDimensions, callback) {
                 fileSystem.readFile(file.fullPath,
-                    function (e, d) {
+                    function(e, d) {
                         if (e) {
                             process.exit(-1);
                         }
@@ -69,7 +70,7 @@
                             "' />");
                     });
             }
-        }
+        };
     };
 
     return {
