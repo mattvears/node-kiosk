@@ -11,7 +11,12 @@
 
     var imageFolderPath = process.argv[2];
     var winston = require("winston");
-    winston.add(winston.transports.File, { filename: "picture-frame.log" });
+    winston.add(winston.transports.File,
+    {
+        filename: "picture-frame.log",
+        maxsize: 1000
+    });
+
     winston.info("image folder: " + imageFolderPath);
 
     var sessions = require("./session").sessions();

@@ -6,7 +6,7 @@
     <RootNamespace>NodejsWebApp1</RootNamespace>
     <NodeExeArguments>
     </NodeExeArguments>
-    <ScriptArguments>"D:\Dropbox\Camera Uploads"</ScriptArguments>
+    <ScriptArguments>"D:\Dropbox\Photos"</ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -38,6 +38,9 @@
     <Compile Include="fileType.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="imageHandler.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\picture-frame.js">
       <SubType>Code</SubType>
     </Compile>
@@ -57,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
-    <Folder Include="views\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

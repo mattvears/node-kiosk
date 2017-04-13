@@ -8,7 +8,6 @@ module.exports = {
         var fileTypes = require("./fileType");
         var animated = require("animated-gif-detector");
 
-
         function createFileEntry(name, dir) {
             var joinedPath = path.join(dir, name);
             var dims = imageSize(joinedPath);
@@ -17,19 +16,15 @@ module.exports = {
                 name: name,
                 fullPath: joinedPath,
                 dimensions: dims,
-                handler: fileTypes.getHandler(dims.type),
+                handler: fileTypes.getHandler(dims.type, winston),
                 displayLength: function() {
                     if (dims.type === "gif") {
                         if (animated(fileSystem.readFileSync(this.fullPath))) {
                             return 5000;
-                        } else {
-                            return 2500;
                         }
-                    } else if (dims.type === "jpg" || dims.type === "png") {
-                        return 2500;
-                    } else {
-                        throw "image time for " + dims.type;
                     }
+
+                    return 2500;
                 }
             };
         };
@@ -50,7 +45,7 @@ module.exports = {
                         async.each(items,
                             function(item, cb) {
                                 for (var j = 0; j < fileTypes.extensions.length; j++) {
-                                    if (item.indexOf(fileTypes.extensions[j]) !== -1) {
+                                    if (item.indexOf(fileTypes.extensions[j]) === item.length - 3) {
                                         tmpFiles.push(createFileEntry(item, imageFolderPath));
                                     }
                                 }
