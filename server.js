@@ -81,11 +81,12 @@
                             var file = files.files[session.itemIndex];
                             file.handler.load(file,
                                 browserDimensions,
-                                function(content) {
-                                    res.writeHead(200, { 'Content-Type': "text/html" });
+                                function (content) {
                                     var html = pictureFrameData.toString();
                                     html = html.split("ITEM_ID").join(session.itemIndex);
                                     var htmlParts = html.split("<!-- split -->");
+
+                                    res.writeHead(200, { 'Content-Type': "text/html" });
                                     res.write(htmlParts[0]);
                                     res.write(content);
                                     res.write(htmlParts[1]);
