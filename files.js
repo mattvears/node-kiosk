@@ -22,19 +22,23 @@ module.exports = {
                 var tmpFiles = [];
                 var that = this;
                 fileSystem.readdir(contentPath,
-                    function(err, items) {
-                        if (err) {
-                            winston.error(err);
+                    function(readDirError, items) {
+                        if (readDirError) {
+                            winston.error(readDirError);
                             process.exit(-1);
                         }
 
                         async.each(items,
                             function(item, cb) {
                                 var fileEntry = createFileEntry(item, contentPath);
-                                tmpFiles.push(fileEntry);
+                                if (fileEntry !== null && fileEntry !== undefined) {
+                                    tmpFiles.push(fileEntry);
+                                }
+
+                                cb();
                             },
-                            function(err) {
-                                winston.error(err);
+                            function(asyncEachError) {
+                                winston.error(asyncEachError);
                             });
                     });
 
