@@ -4,7 +4,7 @@ function GetFileExtension(fileName, winston) {
     var re = ".*?\\.(.*)$";
     var txt = fileName.match(re);
     if (txt != null && txt.length > 1) {
-        return txt[txt.length-1];
+        return txt[txt.length-1].toLowerCase();
     } else {
         winston.error("Could not determine extension for " + fileName);
         return null;
