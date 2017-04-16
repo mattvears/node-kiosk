@@ -14,7 +14,7 @@
     winston.add(winston.transports.File,
     {
         filename: "picture-frame.log",
-        maxsize: 1000
+        maxsize: 1000000
     });
 
     winston.info("image folder: " + imageFolderPath);
