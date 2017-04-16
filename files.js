@@ -2,31 +2,17 @@
 module.exports = {
     files: function(contentPath, winston) {
         var async = require("async");
-        var path = require("path");
-        var imageSize = require("image-size");
         var fileSystem = require("fs");
         var fileTypes = require("./fileType");
-        var animated = require("animated-gif-detector");
 
         function createFileEntry(name, dir) {
-            var joinedPath = path.join(dir, name);
-            var dims = imageSize(joinedPath);
-            winston.info(joinedPath + " (" + dims.type + ") " + dims.width + "x" + dims.height);
-            return {
-                name: name,
-                fullPath: joinedPath,
-                dimensions: dims,
-                handler: fileTypes.getHandler(dims.type, winston),
-                displayLength: function() {
-                    if (dims.type === "gif") {
-                        if (animated(fileSystem.readFileSync(this.fullPath))) {
-                            return 5000;
-                        }
-                    }
+            var extension = name.substr(name.length - 3);
+            var handler = fileTypes.getHandler(extension, winston);
+            if (handler === null || handler === undefined) {
+                return null;
+            }
 
-                    return 2500;
-                }
-            };
+            return handler.createEntry(dir, name);
         };
 
         return {
@@ -44,11 +30,8 @@ module.exports = {
 
                         async.each(items,
                             function(item, cb) {
-                                for (var j = 0; j < fileTypes.extensions.length; j++) {
-                                    if (item.indexOf(fileTypes.extensions[j]) === item.length - 3) {
-                                        tmpFiles.push(createFileEntry(item, contentPath));
-                                    }
-                                }
+                                var fileEntry = createFileEntry(item, contentPath);
+                                tmpFiles.push(fileEntry);
                             },
                             function(err) {
                                 winston.error(err);

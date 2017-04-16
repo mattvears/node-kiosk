@@ -53,7 +53,31 @@ function GetImageScalingInfo(img, browserDimensions, winston) {
 module.exports = {
     handler: function(winston) {
         var fileSystem = require("fs");
+        var animated = require("animated-gif-detector");
+        var imageSize = require("image-size");
+        var path = require("path");
+
         return {
+            createEntry: function (dir, name) {
+                var fullPath = path.join(dir, name);
+                var dims = imageSize(fullPath);
+                var h = this;
+                return {
+                    name: name,
+                    fullPath: fullPath,
+                    dimensions: dims,
+                    handler: h,
+                    displayLength: function () {
+                        if (dims.type === "gif") {
+                            if (animated(fileSystem.readFileSync(this.fullPath))) {
+                                return 5000;
+                            }
+                        }
+
+                        return 2500;
+                    }
+                };
+            },
             load: function(file, browserDimensions, callback) {
                 fileSystem.readFile(file.fullPath,
                     function(fileReadError, d) {

@@ -1,7 +1,6 @@
 ﻿"use strict";
 var ImageHandler = require("./imageHandler");
 module.exports = {
-    extensions: ["jpg", "gif", "png"],
     getHandler: function(fileType, winston) {
         switch (fileType) {
             case "jpg":
@@ -9,5 +8,7 @@ module.exports = {
             case "png":
                 return ImageHandler.handler(winston);
         }
+
+        return null;
     }
 };

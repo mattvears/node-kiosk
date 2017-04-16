@@ -6,7 +6,7 @@
     <RootNamespace>NodejsWebApp1</RootNamespace>
     <NodeExeArguments>
     </NodeExeArguments>
-    <ScriptArguments>"D:\Dropbox\Photos"</ScriptArguments>
+    <ScriptArguments>"D:\kiosk-test-folder"</ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
