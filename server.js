@@ -84,8 +84,9 @@
                                 function (content) {
                                     var html = pictureFrameData.toString();
                                     html = html.split("ITEM_ID").join(session.itemIndex);
-                                    var htmlParts = html.split("<!-- split -->");
+                                    html = html.split("/* CSS */").join(file.handler.css());
 
+                                    var htmlParts = html.split("<!-- split -->");
                                     res.writeHead(200, { 'Content-Type': "text/html" });
                                     res.write(htmlParts[0]);
                                     res.write(content);

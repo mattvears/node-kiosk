@@ -38,7 +38,13 @@
     <Compile Include="fileType.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="handlerFactory.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="imageHandler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="jsHandler.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="public\container.js" />
