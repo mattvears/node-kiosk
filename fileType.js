@@ -3,7 +3,7 @@ var ImageHandler = require("./imageHandler");
 var JsHandler = require("./jsHandler");
 module.exports = {
     getHandler: function (fileType, winston) {
-        switch (fileType) {
+        switch (fileType.toLowerCase()) {
             case "jpg":
             case "gif":
             case "png":

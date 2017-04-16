@@ -9,8 +9,8 @@ module.exports = {
                     dir,
                     name,
                     {
-                        width: 300,
-                        height: 300
+                        width: 300, // TODO: not used yet...
+                        height: 300 // TODO: not used yet...
                     },
                     this,
                     function() {

@@ -54,7 +54,6 @@ var Path = require("path");
 module.exports = {
     handler: function(winston) {
         var fileSystem = require("fs");
-        
         var imageSize = require("image-size");
         var handlerFactory = require("./handlerFactory");
 
