@@ -61,7 +61,6 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="public\reset.css" />
     <Content Include="splash-screen.html">
       <SubType>Code</SubType>
     </Content>

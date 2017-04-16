@@ -31,3 +31,11 @@ node server.js /path/to/dir [port]
 ```
 
 port is optional, default is 1337
+
+# Customization
+
+the contents in the *public* directory are served statically. 
+
+* container.js is used to provide browser data to the server
+* image.css is the default css for displaying images
+* output.css is the default css for displaying command output
