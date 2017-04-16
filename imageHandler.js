@@ -62,8 +62,8 @@ module.exports = {
                 var fullPath = Path.join(dir, name);
                 return handlerFactory.createEntry(dir, name, imageSize(fullPath), this, function () { return 5000; });
             },
-            css: function() {
-                return "body { margin: 0; padding: 0; text-align: center; background-color: black; }";
+            css: function(file, callback) {
+                callback("body { margin: 0; padding: 0; text-align: center; background-color: black; }");
             },
             load: function(file, browserDimensions, callback) {
                 fileSystem.readFile(file.fullPath,

@@ -84,21 +84,21 @@
                                 function (content) {
                                     var html = pictureFrameData.toString();
                                     html = html.split("ITEM_ID").join(session.itemIndex);
-                                    html = html.split("/* CSS */").join(file.handler.css());
+                                    file.handler.css(file,
+                                        function(css) {
+                                            html = html.split("/* CSS */").join(css);
+                                            html = html.split("<!-- split -->").join(content);
+                                            res.writeHead(200, { 'Content-Type': "text/html" });
+                                            res.write(html);
+                                            res.end();
 
-                                    var htmlParts = html.split("<!-- split -->");
-                                    res.writeHead(200, { 'Content-Type': "text/html" });
-                                    res.write(htmlParts[0]);
-                                    res.write(content);
-                                    res.write(htmlParts[1]);
-                                    res.end();
-
-                                    // update state after response is sent.
-                                    sessions.get(sessionId).itemIndex += 1;
-                                    if (sessions.get(sessionId).itemIndex >= files.files.length) {
-                                        sessions.get(sessionId).itemIndex = 0;
-                                        files.updateFileList(contentPath);
-                                    }
+                                            // update state after response is sent.
+                                            sessions.get(sessionId).itemIndex += 1;
+                                            if (sessions.get(sessionId).itemIndex >= files.files.length) {
+                                                sessions.get(sessionId).itemIndex = 0;
+                                                files.updateFileList(contentPath);
+                                            }
+                                        });
                                 });
                         });
 

@@ -2,9 +2,9 @@
 var Exec = require("child_process").exec;
 
 module.exports = {
-    handler: function (winston) {        
+    handler: function (winston) {
         return {
-            createEntry: function (dir, name) {
+            createEntry: function(dir, name) {
                 return HandlerFactory.createEntry(
                     dir,
                     name,
@@ -14,11 +14,11 @@ module.exports = {
                     },
                     this,
                     function() {
-                         return 5000;
+                        return 5000;
                     });
             },
-            css: function () {
-                return [
+            css: function(file, callback) {
+                callback([
                     "body { background-color: #FFFFFF; }",
                     ".stderr { color: red; }",
                     ".stdout { " +
@@ -30,7 +30,7 @@ module.exports = {
                     "padding: 25px; " +
                     "border-radius: 8px;" +
                     "border: 4px solid #EEEEEE; }"
-                ].join("\n");
+                ].join("\n"));
             },
             load: function (file, browserDimensions, callback) {
                 var cmd = "node " + file.fullPath;
