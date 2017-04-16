@@ -20,7 +20,7 @@
     winston.add(winston.transports.File,
     {
         filename: "kiosk.log",
-        maxsize: 1000
+        maxsize: 1000000
     });
 
     winston.info("content folder: " + contentPath);

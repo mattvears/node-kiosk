@@ -28,19 +28,23 @@ function ScaleRatio(img, screenDimensions) {
     }
 }
 
-function GetImageScalingInfo(img, screenDimensions) {
+function GetImageScalingInfo(img, browserDimensions, winston) {
+    if (isNaN(browserDimensions.height) || isNaN(browserDimensions.width)) {
+        winston.error("no browser dimensions provided");        
+    }
+
     if (img.dimensions.width !== img.dimensions.height) {
-        return ScaleRatio(img, screenDimensions);
+        return ScaleRatio(img, browserDimensions);
     } else { // square.
-        if (screenDimensions.width > screenDimensions.height) {
+        if (browserDimensions.width > browserDimensions.height) {
             return {
-                width: screenDimensions.height,
-                height: screenDimensions.height
+                width: browserDimensions.height,
+                height: browserDimensions.height
             };
         } else {
             return {
-                width: screenDimensions.width,
-                height: screenDimensions.width
+                width: browserDimensions.width,
+                height: browserDimensions.width
             };
         }
     }
@@ -54,10 +58,11 @@ module.exports = {
                 fileSystem.readFile(file.fullPath,
                     function(fileReadError, d) {
                         if (fileReadError) {
+                            winston.error("read file error");
                             process.exit(-1);
                         }
-
-                        var scaling = GetImageScalingInfo(file, browserDimensions);
+                        
+                        var scaling = GetImageScalingInfo(file, browserDimensions, winston);
                         winston.debug("image scaling:" + scaling);
 
                         var topOffset = 0;
