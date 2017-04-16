@@ -1,4 +1,9 @@
 ﻿"use strict";
+var FileSystem = require("fs");
+var ImageSize = require("image-size");
+var HandlerFactory = require("./handlerFactory");
+var Path = require("path");
+
 function ScaleRatio(img, screenDimensions) {
     var imgMax, dimMax;
 
@@ -30,7 +35,7 @@ function ScaleRatio(img, screenDimensions) {
 
 function GetImageScalingInfo(img, browserDimensions, winston) {
     if (isNaN(browserDimensions.height) || isNaN(browserDimensions.width)) {
-        winston.error("no browser dimensions provided");        
+        winston.error("no browser dimensions provided");
     }
 
     if (img.dimensions.width !== img.dimensions.height) {
@@ -49,30 +54,32 @@ function GetImageScalingInfo(img, browserDimensions, winston) {
         }
     }
 }
-var Path = require("path");
 
 module.exports = {
     handler: function(winston) {
-        var fileSystem = require("fs");
-        var imageSize = require("image-size");
-        var handlerFactory = require("./handlerFactory");
-
         return {
-            createEntry: function (dir, name) {
+            createEntry: function(dir, name) {
                 var fullPath = Path.join(dir, name);
-                return handlerFactory.createEntry(dir, name, imageSize(fullPath), this, function () { return 5000; });
+                return HandlerFactory.createEntry(dir, name, ImageSize(fullPath), this, function() { return 5000; });
             },
             css: function(file, callback) {
-                callback("body { margin: 0; padding: 0; text-align: center; background-color: black; }");
+                HandlerFactory.fileCss(file,
+                    function(txt) {
+                        callback(txt);
+                    },
+                    function() {
+                        callback("body { margin: 0; padding: 0; text-align: center; background-color: black; }");
+                    },
+                    winston);
             },
             load: function(file, browserDimensions, callback) {
-                fileSystem.readFile(file.fullPath,
+                FileSystem.readFile(file.fullPath,
                     function(fileReadError, d) {
                         if (fileReadError) {
                             winston.error("read file error");
                             process.exit(-1);
                         }
-                        
+
                         var scaling = GetImageScalingInfo(file, browserDimensions, winston);
                         winston.debug("image scaling:" + scaling);
 
@@ -80,7 +87,7 @@ module.exports = {
                         if (scaling.height < browserDimensions.height) {
                             topOffset = (browserDimensions.height - scaling.height) / 2;
                         }
-                        
+
                         callback("<img src='data:image/" +
                             browserDimensions.type +
                             ";base64," +
@@ -89,7 +96,9 @@ module.exports = {
                             scaling.width +
                             "' height='" +
                             scaling.height +
-                            "' style='margin-top: " + topOffset + "px' />");
+                            "' style='margin-top: " +
+                            topOffset +
+                            "px' />");
                     });
             }
         };

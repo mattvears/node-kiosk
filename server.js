@@ -88,6 +88,7 @@
                                         function(css) {
                                             html = html.split("/* CSS */").join(css);
                                             html = html.split("<!-- split -->").join(content);
+
                                             res.writeHead(200, { 'Content-Type': "text/html" });
                                             res.write(html);
                                             res.end();
