@@ -1,6 +1,6 @@
 ﻿"use strict";
 module.exports = {
-    files: function(imageFolderPath, winston) {
+    files: function(contentPath, winston) {
         var async = require("async");
         var path = require("path");
         var imageSize = require("image-size");
@@ -32,10 +32,10 @@ module.exports = {
         return {
             files: [],
             updateFileList: function() {
-                winston.info("updating files (" + imageFolderPath + ")");
+                winston.info("updating files (" + contentPath + ")");
                 var tmpFiles = [];
                 var that = this;
-                fileSystem.readdir(imageFolderPath,
+                fileSystem.readdir(contentPath,
                     function(err, items) {
                         if (err) {
                             winston.error(err);
@@ -46,7 +46,7 @@ module.exports = {
                             function(item, cb) {
                                 for (var j = 0; j < fileTypes.extensions.length; j++) {
                                     if (item.indexOf(fileTypes.extensions[j]) === item.length - 3) {
-                                        tmpFiles.push(createFileEntry(item, imageFolderPath));
+                                        tmpFiles.push(createFileEntry(item, contentPath));
                                     }
                                 }
                             },

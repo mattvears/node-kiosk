@@ -41,17 +41,13 @@
     <Compile Include="imageHandler.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="public\picture-frame.js">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="public\container.js" />
     <Compile Include="server.js" />
     <Compile Include="session.js">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="container.html" />
     <Content Include="package.json" />
-    <Content Include="picture-frame.html">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="README.md" />
     <Content Include="public\reset.css" />
     <Content Include="splash-screen.html">

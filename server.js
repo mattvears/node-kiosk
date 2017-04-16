@@ -5,24 +5,31 @@
 
     // Initial setup
     if (process.argv.length <= 2) {
-        console.log("Usage: " + __filename + " path/to/directory");
+        console.log("Usage: " + __filename + " path/to/directory [port]");
         process.exit(-1);
     }
 
-    var imageFolderPath = process.argv[2];
+    var contentPath = process.argv[2];
+    var port = process.argv[3];
+
+    if (port === null || port === undefined) {
+        port = 1337;
+    }
+
     var winston = require("winston");
     winston.add(winston.transports.File,
     {
-        filename: "picture-frame.log",
+        filename: "kiosk.log",
         maxsize: 1000
     });
 
-    winston.info("image folder: " + imageFolderPath);
+    winston.info("content folder: " + contentPath);
+    winston.info("port: " + port);
 
     var sessions = require("./session").sessions();
-    var files = require("./files").files(imageFolderPath, winston);
+    var files = require("./files").files(contentPath, winston);
 
-    files.updateFileList(imageFolderPath);
+    files.updateFileList(contentPath);
 
     fileSystem.readFile("splash-screen.html",
         function(splashScreenError, splashScreenData) {
@@ -31,7 +38,7 @@
                 process.exit(-2);
             }
 
-            fileSystem.readFile("picture-frame.html",
+            fileSystem.readFile("container.html",
                 function(pictureFrameError, pictureFrameData) {
                     if (pictureFrameError) {
                         winston.error(pictureFrameError);
@@ -45,12 +52,11 @@
                         function(req, res) {
                             var refreshTime = 1;
                             if (req.query["splash"] !== "true") {
-                                var image = req.query["image"];
-                                var imageIndex = parseInt(image, 10);
-                                if (imageIndex === NaN || imageIndex === null || imageIndex === undefined) {
-                                    winston.error("invalid image index: " + imageIndex);
+                                var itemIndex = parseInt(req.query["item"], 10);
+                                if (itemIndex === NaN || itemIndex === null || itemIndex === undefined) {
+                                    winston.error("invalid item index: " + itemIndex);
                                 } else {
-                                    refreshTime = files.files[imageIndex].displayLength();
+                                    refreshTime = files.files[itemIndex].displayLength();
                                 }
                             }
 
@@ -59,8 +65,8 @@
                             res.end();
                         });
                     app.get("/",
-                        function(req, res) {
-                            // pre processing                
+                        function (req, res) {             
+                            // show the splash screen if there is no session data.
                             var sessionId = sessions.getOrCreateSessionId(req, res);
                             if (sessions.get(sessionId) === undefined) {
                                 sessions.create(sessionId);
@@ -72,30 +78,29 @@
 
                             var session = sessions.get(sessionId);
                             var browserDimensions = sessions.screenDimensions(req, res);
-                            var file = files.files[session.imageIndex];
-
+                            var file = files.files[session.itemIndex];
                             file.handler.load(file,
                                 browserDimensions,
                                 function(content) {
                                     res.writeHead(200, { 'Content-Type': "text/html" });
                                     var html = pictureFrameData.toString();
-                                    html = html.split("IMAGE_ID").join(session.imageIndex);
+                                    html = html.split("ITEM_ID").join(session.itemIndex);
                                     var htmlParts = html.split("<!-- split -->");
                                     res.write(htmlParts[0]);
                                     res.write(content);
                                     res.write(htmlParts[1]);
                                     res.end();
 
-                                    // post processing
-                                    sessions.get(sessionId).imageIndex += 1;
-                                    if (sessions.get(sessionId).imageIndex >= files.files.length) {
-                                        sessions.get(sessionId).imageIndex = 0;
-                                        files.updateFileList(imageFolderPath);
+                                    // update state after response is sent.
+                                    sessions.get(sessionId).itemIndex += 1;
+                                    if (sessions.get(sessionId).itemIndex >= files.files.length) {
+                                        sessions.get(sessionId).itemIndex = 0;
+                                        files.updateFileList(contentPath);
                                     }
                                 });
                         });
 
-                    app.listen(1337,
+                    app.listen(port,
                         function() {
                             winston.info("server started.");
                         });

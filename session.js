@@ -9,7 +9,7 @@ module.exports = {
             create: function() {
                 offset += 1;
                 states[offset] = {
-                    imageIndex: 0
+                    itemIndex: 0
                 };
                 return offset;
             },
