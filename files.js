@@ -3,12 +3,11 @@
 function GetFileExtension(fileName, winston) {
     var re = ".*?\\.(.*)$";
     var txt = fileName.match(re);
-    if (txt.length > 1) {
+    if (txt != null && txt.length > 1) {
         return txt[txt.length-1];
     } else {
         winston.error("Could not determine extension for " + fileName);
-        winston.debug(txt);
-        process.exit(-1);
+        return null;
     }
 }
 
@@ -20,6 +19,10 @@ module.exports = {
 
         function createFileEntry(name, dir) {
             var extension = GetFileExtension(name, winston);
+            if (extension === null) {
+                return null;
+            }
+
             var handler = fileTypes.getHandler(extension, winston);
             if (handler === null || handler === undefined) {
                 return null;
