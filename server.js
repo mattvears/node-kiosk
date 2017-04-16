@@ -86,7 +86,7 @@
                                     html = html.split("ITEM_ID").join(session.itemIndex);
                                     file.handler.css(file,
                                         function(css) {
-                                            html = html.split("/* CSS */").join(css);
+                                            html = html.split("<!-- css -->").join(css);
                                             html = html.split("<!-- split -->").join(content);
 
                                             res.writeHead(200, { 'Content-Type': "text/html" });

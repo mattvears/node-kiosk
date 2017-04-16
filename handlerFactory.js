@@ -12,18 +12,18 @@ module.exports = {
             displayLength: displayLength
         };
     },
-    fileCss: function (file, onLoad, onNotLoaded, winston) {
+    fileCss: function (file, onLoad, defaultCss, winston) {
         var fn = file.fullPath + ".css";
         FileSystem.readFile(fn,
             function(error, data) {
                 if (error) {
                     winston.debug(error);
-                    onNotLoaded();
+                    onLoad("<link rel='stylesheet' type='text/css' href='" + defaultCss + "' />");
                     return;
                 }
 
                 winston.debug("serving item css from: " + fn);
-                onLoad(data);
+                onLoad("<style>" + data + "</style>");
             });
     }
 };

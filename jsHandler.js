@@ -22,9 +22,8 @@ module.exports = {
                     function (txt) {
                         callback(txt);
                     },
-                    function () {
-                        callback("body { margin: 25px; padding: 25px; }");
-                    }, winston); 
+                    "output.css",
+                    winston); 
             },
             load: function (file, browserDimensions, callback) {
                 var cmd = "node " + file.fullPath;

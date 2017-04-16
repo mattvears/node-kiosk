@@ -67,9 +67,7 @@ module.exports = {
                     function(txt) {
                         callback(txt);
                     },
-                    function() {
-                        callback("body { margin: 0; padding: 0; text-align: center; background-color: black; }");
-                    },
+                    "image.css",
                     winston);
             },
             load: function(file, browserDimensions, callback) {
